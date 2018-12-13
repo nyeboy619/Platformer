@@ -80,14 +80,17 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 			touchPoint.set((int)event.getX(),(int)event.getY());
 		switch(event.getAction()){
 			case MotionEvent.ACTION_DOWN:
+				if(!player.onAir)
+					player.jump();
 		
 			break;
 			case MotionEvent.ACTION_MOVE:
-						player.jump();
+
 						viewport.setLocation(0.01f,0,-8);
 					
 			break;
 			case MotionEvent.ACTION_UP:
+
 			
 			break;
 		}
@@ -95,14 +98,12 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 		return true;
 	}
 
-	public void update(){
-			checkCollision();
-	}
+
 
 	@Override
 	public void draw(Canvas canvas){
 			
-		update();
+
 			
 		super.draw(canvas);
 	  viewport.applyToCanvas(canvas);
@@ -110,16 +111,13 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 		lvl.draw(canvas);
 	
 	}
-	
-	public void checkCollision(){
-			
-		for(RectF rect:lvl.rects){
-			
-				collision.collideOnPlatform(player,rect);
-				
-		}
+
+	public void update(){
+		player.update();
+	    for(RectF rect:lvl.rects) {
+            collision.checkCollision(player,rect);
+        }
 	}
-	
 	
 	
 	

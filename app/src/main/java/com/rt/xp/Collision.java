@@ -1,17 +1,26 @@
 package com.rt.xp;
 
-import android.graphics.*;
 
-public class Collision extends RectF
+import android.graphics.RectF;
+
+public class Collision
 {
-		boolean onPlatform=false;
 
-	public boolean collideOnPlatform(Player player,RectF lvlBox){
-			if(lvlBox.contains(player.box.centerX(),player.box.centerY()+(player.box.height()/2))){
-				player.stats=player.ON_PLATFORM;
-			
-	}
-	return onPlatform;
-	}
+		public void checkCollision(Player player,RectF lvlBox){
+			if(lvlBox.contains(player.getX(),player.getY())){
+				player.onAir=false;
+				if(!player.jump) {
+
+					player.setY((int) lvlBox.top);
+					if(player.getY()>lvlBox.top)
+						player.setY((int) lvlBox.top);
+
+				}
+				if(player.jump){
+
+					player.jump();
+				}
+			}
+		}
 }
 

@@ -10,19 +10,22 @@ import android.widget.*;
 public class MainActivity extends Activity 
 {
 		private MainPanel mainPanel;
-	
+    private LinearLayout lL;
+    private EditText editTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Display display = getWindowManager().getDefaultDisplay();
-
-			
-
 		mainPanel = new MainPanel(this,display);
         setContentView(mainPanel);
+
+
 
     }
 
