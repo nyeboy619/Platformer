@@ -40,7 +40,7 @@ public class Player
 		public void draw(Canvas canvas){
 
 				box.set(x,y,mBitmap.getWidth()+x,mBitmap.getHeight()+y);
-				//canvas.drawRect(box,mPaint);
+				//canvas.drawRect(center,mPaint);
 				canvas.drawRect(box,mPaint);
 				canvas.drawBitmap(mBitmap,x,y,mPaint);
 				

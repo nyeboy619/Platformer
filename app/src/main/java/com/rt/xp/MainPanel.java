@@ -5,6 +5,8 @@ import android.graphics.*;
 import android.view.*;
 import android.widget.*;
 
+import java.util.zip.Checksum;
+
 public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 {
 	MainThread thread;
@@ -18,6 +20,7 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 	Level lvl;
 	Viewport viewport;
 	Collision collision;
+	TouchControl touchControl;
 	
 	
 	
@@ -32,6 +35,7 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 		lvl = new Level(context);
 		viewport = new Viewport();
 		collision = new Collision();
+		touchControl = new TouchControl();
 		
 		
 		this.display = display;
@@ -77,21 +81,32 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
+
 			touchPoint.set((int)event.getX(),(int)event.getY());
 		switch(event.getAction()){
 			case MotionEvent.ACTION_DOWN:
-				if(!player.onAir)
-					player.jump();
+				touchControl.setPlate(touchPoint.x,touchPoint.y);
+				touchControl.control=true;
+
+
+
 		
 			break;
 			case MotionEvent.ACTION_MOVE:
-
+				touchControl.update(touchPoint.x,touchPoint.y);
 						viewport.setLocation(0.01f,0,-8);
 					
 			break;
 			case MotionEvent.ACTION_UP:
+				touchControl.control=false;
 
 			
+			break;
+			case MotionEvent.ACTION_POINTER_2_DOWN:
+
+				if (!player.onAir)
+					player.jump();
+
 			break;
 		}
 
@@ -106,6 +121,10 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 
 			
 		super.draw(canvas);
+		if(touchControl.control){
+			touchControl.draw(canvas);
+		}
+
 	  viewport.applyToCanvas(canvas);
 		player.draw(canvas);
 		lvl.draw(canvas);
